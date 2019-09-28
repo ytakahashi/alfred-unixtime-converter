@@ -12,25 +12,34 @@ type TimeStruct struct {
 	DateTime       string
 }
 
+type formatter interface {
+	newTimeStruct(t time.Time) TimeStruct
+	fromDateTimeString(value string) (time.Time, error)
+	fromUnixTimestamp(value string) (time.Time, error)
+}
+
 var layout = time.RFC3339
 
 // NewTimeStruct creates a new TimeStruct from string value
-func NewTimeStruct(value string) TimeStruct {
-	t, e := fromDateTimeString(value)
+func NewTimeStruct(value string, formatter formatter) TimeStruct {
+	t, e := formatter.fromDateTimeString(value)
 	if e == nil {
-		return newTimeStruct(t)
+		return formatter.newTimeStruct(t)
 	}
 
-	t2, e2 := fromUnixTimestamp(value)
+	t2, e2 := formatter.fromUnixTimestamp(value)
 	if e2 == nil {
-		return newTimeStruct(t2)
+		return formatter.newTimeStruct(t2)
 	}
 
 	now := time.Now()
-	return newTimeStruct(now)
+	return formatter.newTimeStruct(now)
 }
 
-func newTimeStruct(t time.Time) TimeStruct {
+// TimeStructFormatter TimeStructFormatter
+type TimeStructFormatter struct{}
+
+func (formatter TimeStructFormatter) newTimeStruct(t time.Time) TimeStruct {
 	return TimeStruct{
 		Unixtime:       t.Unix(),
 		UnixtimeMillis: t.UnixNano() / int64(time.Millisecond),
@@ -38,11 +47,11 @@ func newTimeStruct(t time.Time) TimeStruct {
 	}
 }
 
-func fromDateTimeString(value string) (time.Time, error) {
+func (formatter TimeStructFormatter) fromDateTimeString(value string) (time.Time, error) {
 	return time.Parse(layout, value)
 }
 
-func fromUnixTimestamp(value string) (time.Time, error) {
+func (formatter TimeStructFormatter) fromUnixTimestamp(value string) (time.Time, error) {
 	unixtime, e := strconv.ParseInt(value, 10, 64)
 	if e != nil {
 		return time.Time{}, e

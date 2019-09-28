@@ -1,3 +1,3 @@
 module github.com/ytakahashi/alfred-unixtime-converter
 
-go 1.12
+go 1.13
