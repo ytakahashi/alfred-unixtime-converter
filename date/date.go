@@ -1,9 +1,14 @@
 package date
 
 import (
+	"fmt"
+	"regexp"
 	"strconv"
 	"time"
 )
+
+var hhmmss = regexp.MustCompile(`^[0-2]?[0-9]:[0-5][0-9]:[0-5][0-9]`)
+var mmdd = regexp.MustCompile(`^[0-1][0-9]\-[0-3][0-9]`)
 
 // TimeStruct is a struct
 type TimeStruct struct {
@@ -22,12 +27,12 @@ var layout = time.RFC3339
 
 // NewTimeStruct creates a new TimeStruct from string value
 func NewTimeStruct(value string, formatter formatter) TimeStruct {
-	t, e := formatter.fromDateTimeString(value)
+	t, e := formatter.fromUnixTimestamp(value)
 	if e == nil {
 		return formatter.newTimeStruct(t)
 	}
 
-	t2, e2 := formatter.fromUnixTimestamp(value)
+	t2, e2 := formatter.fromDateTimeString(value)
 	if e2 == nil {
 		return formatter.newTimeStruct(t2)
 	}
@@ -48,6 +53,19 @@ func (formatter TimeStructFormatter) newTimeStruct(t time.Time) TimeStruct {
 }
 
 func (formatter TimeStructFormatter) fromDateTimeString(value string) (time.Time, error) {
+	if hhmmss.MatchString(value) {
+		yymmdd := time.Now().Format("2006-01-02")
+		return time.Parse(layout, yymmdd+"T"+value)
+	}
+	if mmdd.MatchString(value) {
+		now := time.Now()
+		year := now.Year()
+		t, e := time.Parse(layout, fmt.Sprintf("%d-%s", year, value))
+		if e == nil {
+			return t, e
+		}
+		return time.Parse(layout, fmt.Sprintf("%d-%sT00:00:00Z", year, value[:5]))
+	}
 	return time.Parse(layout, value)
 }
 
