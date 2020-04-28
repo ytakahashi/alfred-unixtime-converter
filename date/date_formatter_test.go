@@ -55,13 +55,13 @@ func Test_fromDateTimeString_success_hhmmss(t *testing.T) {
 	}
 
 	hour, min, sec := actual.Clock()
-	if hour != 01 {
+	if hour != 1 {
 		t.Errorf("unexpected hour: %d", hour)
 	}
-	if min != 01 {
+	if min != 1 {
 		t.Errorf("unexpected min: %d", min)
 	}
-	if sec != 00 {
+	if sec != 0 {
 		t.Errorf("unexpected sec: %d", sec)
 	}
 }
@@ -98,12 +98,12 @@ func Test_fromDateTimeString_success_mmddhhmmss(t *testing.T) {
 
 	year, month, day := actual.Date()
 	if year < 2020 {
-		t.Errorf("unexpected hour: %d", year)
+		t.Errorf("unexpected year: %d", year)
 	}
-	if month != 04 {
+	if month != 4 {
 		t.Errorf("unexpected month: %d", month)
 	}
-	if day != 01 {
+	if day != 1 {
 		t.Errorf("unexpected day: %d", day)
 	}
 
