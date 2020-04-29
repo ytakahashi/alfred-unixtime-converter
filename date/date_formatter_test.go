@@ -53,6 +53,21 @@ func Test_fromDateTimeString_success(t *testing.T) {
 	}
 }
 
+func Test_fromDateTimeString_success_local(t *testing.T) {
+	value := "2019-01-02T20:04:00+09:00"
+	expected := "2019-01-02T11:04:00Z"
+
+	sut := TimeStructFormatter{}
+	actual, err := sut.fromDateTimeString(value)
+	if err != nil {
+		t.Error("error should not be thorown")
+	}
+	format := actual.UTC().Format(time.RFC3339)
+	if format != expected {
+		t.Errorf("assert failed. expect:%s, actual:%s", expected, format)
+	}
+}
+
 func Test_fromDateTimeString_success_hhmmss(t *testing.T) {
 	value := "01:01:00Z"
 
@@ -63,6 +78,27 @@ func Test_fromDateTimeString_success_hhmmss(t *testing.T) {
 	}
 
 	hour, min, sec := actual.Clock()
+	if hour != 1 {
+		t.Errorf("unexpected hour: %d", hour)
+	}
+	if min != 1 {
+		t.Errorf("unexpected min: %d", min)
+	}
+	if sec != 0 {
+		t.Errorf("unexpected sec: %d", sec)
+	}
+}
+
+func Test_fromDateTimeString_success_hhmmss_local(t *testing.T) {
+	value := "10:01:00+09:00"
+
+	sut := TimeStructFormatter{}
+	actual, err := sut.fromDateTimeString(value)
+	if err != nil {
+		t.Error("error should not be thorown")
+	}
+
+	hour, min, sec := actual.UTC().Clock()
 	if hour != 1 {
 		t.Errorf("unexpected hour: %d", hour)
 	}
