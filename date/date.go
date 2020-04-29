@@ -12,13 +12,15 @@ var mmdd = regexp.MustCompile(`^[0-1][0-9]\-[0-3][0-9]`)
 
 // TimeStruct is a struct
 type TimeStruct struct {
+	Value          string
 	Unixtime       int64
 	UnixtimeMillis int64
 	DateTime       string
+	LocalDateTime  string
 }
 
 type formatter interface {
-	newTimeStruct(t time.Time) TimeStruct
+	newTimeStruct(value string, t time.Time) TimeStruct
 	fromDateTimeString(value string) (time.Time, error)
 	fromUnixTimestamp(value string) (time.Time, error)
 }
@@ -29,26 +31,27 @@ var layout = time.RFC3339
 func NewTimeStruct(value string, formatter formatter) TimeStruct {
 	t, e := formatter.fromUnixTimestamp(value)
 	if e == nil {
-		return formatter.newTimeStruct(t)
+		return formatter.newTimeStruct(value, t)
 	}
 
 	t2, e2 := formatter.fromDateTimeString(value)
 	if e2 == nil {
-		return formatter.newTimeStruct(t2)
+		return formatter.newTimeStruct(value, t2)
 	}
 
-	now := time.Now()
-	return formatter.newTimeStruct(now)
+	return formatter.newTimeStruct("Current Time", time.Now())
 }
 
 // TimeStructFormatter TimeStructFormatter
 type TimeStructFormatter struct{}
 
-func (formatter TimeStructFormatter) newTimeStruct(t time.Time) TimeStruct {
+func (formatter TimeStructFormatter) newTimeStruct(v string, t time.Time) TimeStruct {
 	return TimeStruct{
+		Value:          v,
 		Unixtime:       t.Unix(),
 		UnixtimeMillis: t.UnixNano() / int64(time.Millisecond),
 		DateTime:       t.UTC().Format(layout),
+		LocalDateTime:  t.Local().Format(layout),
 	}
 }
 

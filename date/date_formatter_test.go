@@ -6,17 +6,25 @@ import (
 )
 
 func Test_newTimeStruct(t *testing.T) {
-	v := time.Unix(1293667200, 0)
+	v := "test"
+	tm := time.Unix(1293667200, 0)
 
 	sut := TimeStructFormatter{}
-	actual := sut.newTimeStruct(v)
-	expected := TimeStruct{
-		Unixtime:       1293667200,
-		UnixtimeMillis: 1293667200000,
-		DateTime:       "2010-12-30T00:00:00Z",
+	actual := sut.newTimeStruct(v, tm)
+	if actual.Value != v {
+		t.Errorf("Unexpected Value. expect:%s actual:%s", v, actual.Value)
 	}
-	if actual != expected {
-		t.Errorf("assert failed. expect:%v actual:%v", expected, actual)
+	if actual.Unixtime != 1293667200 {
+		t.Errorf("Unexpected Unixtime. expect:%d actual:%d", 1293667200, actual.Unixtime)
+	}
+	if actual.UnixtimeMillis != 1293667200000 {
+		t.Errorf("Unexpected UnixtimeMillis. expect:%d actual:%d", 1293667200000, actual.UnixtimeMillis)
+	}
+	if actual.DateTime != "2010-12-30T00:00:00Z" {
+		t.Errorf("Unexpected DateTime. expect:%s actual:%s", "2010-12-30T00:00:00Z", actual.DateTime)
+	}
+	if actual.LocalDateTime == "" {
+		t.Error("Unexpected LocalDateTime.")
 	}
 }
 

@@ -8,12 +8,14 @@ import (
 
 func Test_Convert(t *testing.T) {
 	value := date.TimeStruct{
-		DateTime:       "2020-01-01T00:00:00Z",
+		Value:          "test",
+		DateTime:       "2020-01-01T00:00:00",
+		LocalDateTime:  "2020-01-01T09:00:00+09:00",
 		Unixtime:       1577836800,
 		UnixtimeMillis: 1577836800000,
 	}
 
-	expected := "{\"items\":[{\"uid\":\"2020-01-01T00:00:00Z\",\"title\":\"2020-01-01T00:00:00Z\",\"subtitle\":\"DateTime string (ISO8601 format)\",\"arg\":\"2020-01-01T00:00:00Z\"},{\"uid\":\"1577836800\",\"title\":\"1577836800\",\"subtitle\":\"Unix Timestamp (s)\",\"arg\":\"1577836800\"},{\"uid\":\"1577836800000\",\"title\":\"1577836800000\",\"subtitle\":\"Unix Timestamp (ms)\",\"arg\":\"1577836800000\"}]}"
+	expected := `{"items":[{"uid":"2020-01-01T09:00:00+09:00","title":"2020-01-01T09:00:00+09:00","subtitle":"test: DateTime string (ISO8601, Local)","arg":"2020-01-01T09:00:00+09:00"},{"uid":"2020-01-01T00:00:00","title":"2020-01-01T00:00:00","subtitle":"test: DateTime string (ISO8601, UTC)","arg":"2020-01-01T00:00:00"},{"uid":"1577836800","title":"1577836800","subtitle":"test: Unix Timestamp (s)","arg":"1577836800"},{"uid":"1577836800000","title":"1577836800000","subtitle":"test: Unix Timestamp (ms)","arg":"1577836800000"}]}`
 	actual := ConvertToAlfredJSON(value)
 	if actual != expected {
 		t.Errorf("assert failed. expect:%v actual:%v", expected, actual)

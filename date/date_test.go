@@ -14,7 +14,7 @@ var expected = TimeStruct{
 
 type mockedTimeStructFormatter1 struct{}
 
-func (formatter mockedTimeStructFormatter1) newTimeStruct(t time.Time) TimeStruct {
+func (formatter mockedTimeStructFormatter1) newTimeStruct(v string, t time.Time) TimeStruct {
 	return expected
 }
 
