@@ -1,10 +1,16 @@
 # alfred-unixtime-converter
 
+![GO](https://img.shields.io/badge/-Go-76E1FE.svg?logo=go&style=popout)
+[![Actions Status](https://github.com/ytakahashi/alfred-unixtime-converter/workflows/Go%20CI/badge.svg)](https://github.com/ytakahashi/alfred-unixtime-converter/actions)
+[![Go Report Card](https://goreportcard.com/badge/github.com/ytakahashi/alfred-unixtime-converter)](https://goreportcard.com/report/github.com/ytakahashi/alfred-unixtime-converter)
+
 Unixtime converter available as alfred workflow.
 
 ![gif image](./image/unixtime-converter.gif)
 
 ## How to use
+
+Download a package from [release page](https://github.com/ytakahashi/alfred-unixtime-converter/releases) and install.
 
 Activate Alfred and type `ut`.  
 Input date string or unix timestamp and you see converted results.
