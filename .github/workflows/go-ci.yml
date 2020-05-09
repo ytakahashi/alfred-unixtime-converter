@@ -41,5 +41,5 @@ jobs:
     - name: Archive generated package
       uses: actions/upload-artifact@v1
       with:
-        name: UnixtimeConverter.alfredworkflow
+        name: alfred-unixtime-converter
         path: UnixtimeConverter.alfredworkflow
