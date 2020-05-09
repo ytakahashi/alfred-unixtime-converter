@@ -1,5 +1,3 @@
-SHELL := /bin/bash
-
 DIST_DIR=dist
 COMPILED_PACKAGE=alfred-unixtime-converter
 DIST_FILE=UnixtimeConverter.alfredworkflow
