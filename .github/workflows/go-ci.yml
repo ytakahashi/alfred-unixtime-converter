@@ -34,3 +34,12 @@ jobs:
 
     - name: Test code
       run: go test -v ./...
+
+    - name: Create package
+      run: make
+
+    - name: Archive generated package
+      uses: actions/upload-artifact@v1
+      with:
+        name: code-coverage-report
+        path: UnixtimeConverter.alfredworkflow

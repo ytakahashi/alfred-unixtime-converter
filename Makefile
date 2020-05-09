@@ -2,7 +2,7 @@ SHELL := /bin/bash
 
 DIST_DIR=dist
 COMPILED_PACKAGE=alfred-unixtime-converter
-DIST_FILE=UnixtimeConverterter.alfredworkflow
+DIST_FILE=UnixtimeConverter.alfredworkflow
 
 .DEFAULT_GOAL := package
 
