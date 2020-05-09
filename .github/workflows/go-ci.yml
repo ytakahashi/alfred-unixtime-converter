@@ -12,7 +12,7 @@ jobs:
 
   build:
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     strategy:
       matrix:
         go:
@@ -34,3 +34,12 @@ jobs:
 
     - name: Test code
       run: go test -v ./...
+
+    - name: Create package
+      run: make
+
+    - name: Archive generated package
+      uses: actions/upload-artifact@v1
+      with:
+        name: alfred-unixtime-converter
+        path: UnixtimeConverter.alfredworkflow
