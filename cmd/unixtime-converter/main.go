@@ -4,8 +4,8 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/ytakahashi/alfred-unixtime-converter/alfred"
-	"github.com/ytakahashi/alfred-unixtime-converter/date"
+	"github.com/ytakahashi/alfred-unixtime-converter/pkg/alfred"
+	"github.com/ytakahashi/alfred-unixtime-converter/pkg/date"
 )
 
 type timeFormatter interface {

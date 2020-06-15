@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/ytakahashi/alfred-unixtime-converter/date"
+	"github.com/ytakahashi/alfred-unixtime-converter/pkg/date"
 )
 
 // Item is an alfred item (https://www.alfredapp.com/help/workflows/inputs/script-filter/json/)
