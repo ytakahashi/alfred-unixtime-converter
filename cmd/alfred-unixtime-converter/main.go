@@ -8,21 +8,20 @@ import (
 	"github.com/ytakahashi/alfred-unixtime-converter/pkg/date"
 )
 
-type timeFormatter interface {
-	Format(value string) date.TimeStruct
-}
-
-type timeConverter interface {
-	Convert(value date.TimeStruct) string
-}
-
 func main() {
 	flag.Parse()
 	val := flag.Arg(0)
 
-	formatter := date.TimeStructFormatter{}
-	time := date.NewTimeStruct(val, formatter)
+	formatter := date.NewInputFormatter(val)
+	execute(formatter)
+}
 
+func execute(formatter date.InputFormatter) {
+	t, err := formatter.ToTime()
+	if err != nil {
+		fmt.Println(err)
+	}
+	time := formatter.ToTimeStruct(t)
 	st := alfred.ConvertToAlfredJSON(time)
 
 	fmt.Println(st)

@@ -1,5 +1,5 @@
 DIST_DIR=dist
-COMPILED_PACKAGE=unixtime-converter
+COMPILED_PACKAGE=alfred-unixtime-converter
 DIST_FILE=UnixtimeConverter.alfredworkflow
 
 .DEFAULT_GOAL := package

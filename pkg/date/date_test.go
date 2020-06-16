@@ -1,63 +1,62 @@
 package date
 
 import (
-	"errors"
 	"testing"
-	"time"
 )
 
-var expected = TimeStruct{
-	Unixtime:       1293667200,
-	UnixtimeMillis: 1293667200000,
-	DateTime:       "2010-12-30T00:00:00Z",
-}
+func Test_fromDateTimeString_success_mmdd(t *testing.T) {
+	value := "04-01"
 
-type mockedTimeStructFormatter1 struct{}
-
-func (formatter mockedTimeStructFormatter1) newTimeStruct(v string, t time.Time) TimeStruct {
-	return expected
-}
-
-func (formatter mockedTimeStructFormatter1) fromDateTimeString(value string) (time.Time, error) {
-	if value == "2010-12-30T00:00:00Z" {
-		return time.Now(), nil
+	sut := dateInputFormatter{
+		input: value,
 	}
-	return time.Now(), errors.New("error")
-}
-
-func (formatter mockedTimeStructFormatter1) fromUnixTimestamp(value string) (time.Time, error) {
-	if value == "1293667200" {
-		return time.Now(), nil
+	actual, err := sut.ToTime()
+	if err != nil {
+		t.Error("error should not be thorown")
 	}
-	return time.Now(), errors.New("error")
-}
 
-func Test_NewTimeStruct_fromDateTime(t *testing.T) {
-	value := "2010-12-30T00:00:00Z"
-	formatter := mockedTimeStructFormatter1{}
-
-	actual := NewTimeStruct(value, formatter)
-	if actual != expected {
-		t.Errorf("assert failed. expect:%v actual:%v", expected, actual)
+	year, month, day := actual.Date()
+	if year < 2020 {
+		t.Errorf("unexpected hour: %d", year)
+	}
+	if month != 4 {
+		t.Errorf("unexpected month: %d", month)
+	}
+	if day != 1 {
+		t.Errorf("unexpected day: %d", day)
 	}
 }
 
-func Test_NewTimeStruct_fromTimestamp(t *testing.T) {
-	value := "1293667200"
-	formatter := mockedTimeStructFormatter1{}
+func Test_fromDateTimeString_success_mmddhhmmss(t *testing.T) {
+	value := "04-01T01:02:03Z"
 
-	actual := NewTimeStruct(value, formatter)
-	if actual != expected {
-		t.Errorf("assert failed. expect:%v actual:%v", expected, actual)
+	sut := dateInputFormatter{
+		input: value,
 	}
-}
+	actual, err := sut.ToTime()
+	if err != nil {
+		t.Error("error should not be thorown")
+	}
 
-func Test_NewTimeStruct_now(t *testing.T) {
-	value := ""
-	formatter := mockedTimeStructFormatter1{}
+	year, month, day := actual.Date()
+	if year < 2020 {
+		t.Errorf("unexpected year: %d", year)
+	}
+	if month != 4 {
+		t.Errorf("unexpected month: %d", month)
+	}
+	if day != 1 {
+		t.Errorf("unexpected day: %d", day)
+	}
 
-	actual := NewTimeStruct(value, formatter)
-	if actual != expected {
-		t.Errorf("assert failed. expect:%v actual:%v", expected, actual)
+	hour, min, sec := actual.Clock()
+	if hour != 1 {
+		t.Errorf("unexpected hour: %d", hour)
+	}
+	if min != 2 {
+		t.Errorf("unexpected min: %d", min)
+	}
+	if sec != 3 {
+		t.Errorf("unexpected sec: %d", sec)
 	}
 }
