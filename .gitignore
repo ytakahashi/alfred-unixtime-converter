@@ -13,4 +13,6 @@
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
-alfred-unixtime-converter
+dist/alfred-unixtime-converter
+*.zip
+*.alfredworkflow

@@ -3,7 +3,7 @@ package alfred
 import (
 	"testing"
 
-	"github.com/ytakahashi/alfred-unixtime-converter/date"
+	"github.com/ytakahashi/alfred-unixtime-converter/pkg/date"
 )
 
 func Test_Convert(t *testing.T) {

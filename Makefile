@@ -7,7 +7,7 @@ DIST_FILE=UnixtimeConverter.alfredworkflow
 package: clean build zip
 
 build:
-	go build -o ./dist
+	go build -o ./dist/$(COMPILED_PACKAGE) ./cmd/$(COMPILED_PACKAGE)/main.go
 
 zip:
 	zip -j $(DIST_FILE) $(CURDIR)/$(DIST_DIR)/*
