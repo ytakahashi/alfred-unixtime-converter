@@ -16,6 +16,7 @@ type TimeStruct struct {
 }
 
 var hhmmss = regexp.MustCompile(`^[0-2]?[0-9]:[0-5][0-9]:[0-5][0-9]`)
+var hhmm = regexp.MustCompile(`^[0-2]?[0-9]:[0-5][0-9]$`)
 var mmdd = regexp.MustCompile(`^[0-1][0-9]\-[0-3][0-9]`)
 var year = regexp.MustCompile(`^[1-2][0-9]{3}\-`)
 var layout = time.RFC3339
@@ -36,7 +37,8 @@ type dateInputFormatter struct {
 	input string
 }
 type timeInputFormatter struct {
-	input string
+	input     string
+	precision string
 }
 type currentTimeFormatter struct{}
 
@@ -49,7 +51,14 @@ func NewInputFormatter(input string) InputFormatter {
 	}
 	if hhmmss.MatchString(input) {
 		return timeInputFormatter{
-			input: input,
+			input:     input,
+			precision: "second",
+		}
+	}
+	if hhmm.MatchString(input) {
+		return timeInputFormatter{
+			input:     input,
+			precision: "minute",
 		}
 	}
 	if year.MatchString(input) {
