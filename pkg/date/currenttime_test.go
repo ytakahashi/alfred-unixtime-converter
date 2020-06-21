@@ -5,34 +5,22 @@ import (
 	"time"
 )
 
-func Test_unixTimeInputFormatter_ToTime_success(t *testing.T) {
-	value := "1567299660"
-	expected := "2019-09-01T01:01:00Z"
+func Test_currentTimeFormatter_ToTime(t *testing.T) {
+	sut := currentTimeFormatter{}
 
-	sut := unixTimeInputFormatter{
-		input: value,
-	}
-	actual, err := sut.ToTime()
+	_, err := sut.ToTime()
 	if err != nil {
-		t.Error("error should not be thorown")
-	}
-
-	format := actual.UTC().Format(time.RFC3339)
-	if format != expected {
-		t.Errorf("assert failed. expect:%s, actual:%s", expected, format)
+		t.Error(err)
 	}
 }
 
-func Test_unixTimeInputFormatter_ToTimeStruct(t *testing.T) {
-	input := "1257894000"
-	sut := unixTimeInputFormatter{
-		input: input,
-	}
+func Test_currentTimeFormatter_ToTimeStruct(t *testing.T) {
+	sut := currentTimeFormatter{}
 
 	v := time.Date(2009, time.November, 10, 23, 0, 0, 0, time.UTC)
 	actual := sut.ToTimeStruct(v)
 
-	if actual.Value != input {
+	if actual.Value != "Current Time" {
 		t.Errorf("unexpected Value (%s)", actual.Value)
 	}
 	if actual.DateTime != "2009-11-10T23:00:00Z" {
