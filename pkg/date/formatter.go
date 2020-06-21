@@ -51,7 +51,7 @@ func NewInputFormatter(input string) InputFormatter {
 	}
 	if hhmmss.MatchString(input) {
 		return timeInputFormatter{
-			input:     input,
+			input:     hhmmss.FindString(input),
 			precision: "second",
 		}
 	}
