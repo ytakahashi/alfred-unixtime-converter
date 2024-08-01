@@ -2,7 +2,9 @@ package date
 
 import (
 	"regexp"
+	"slices"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -15,6 +17,14 @@ type TimeStruct struct {
 	LocalDateTime  string
 }
 
+type presetString string
+
+const (
+	NOW   = presetString("now")
+	TODAY = presetString("today")
+)
+
+var preset = []string{string(NOW), string(TODAY)}
 var hhmmss = regexp.MustCompile(`^[0-2]?[0-9]:[0-5][0-9]:[0-5][0-9]`)
 var hhmm = regexp.MustCompile(`^[0-2]?[0-9]:[0-5][0-9]$`)
 var mmdd = regexp.MustCompile(`^[0-1][0-9]\-[0-3][0-9]`)
@@ -27,6 +37,9 @@ type InputFormatter interface {
 	ToTimeStruct(t time.Time) TimeStruct
 }
 
+type presetFormatter struct {
+	input string
+}
 type dateTimeInputFormatter struct {
 	input string
 }
@@ -44,6 +57,11 @@ type currentTimeFormatter struct{}
 
 // NewInputFormatter creates a new input formatter instance
 func NewInputFormatter(input string) InputFormatter {
+	if slices.Contains(preset, strings.ToLower(input)) {
+		return presetFormatter{
+			input: input,
+		}
+	}
 	if mmdd.MatchString(input) {
 		return dateInputFormatter{
 			input: input,
