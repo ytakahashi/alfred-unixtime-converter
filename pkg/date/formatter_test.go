@@ -9,7 +9,7 @@ import (
 func Test_NewInputFormatter_dateInputFormatter(t *testing.T) {
 	input := "06-10"
 
-	actual := NewInputFormatter(input)
+	actual := NewInputFormatter(input, "")
 
 	actualType := reflect.TypeOf(actual)
 	expectedType := reflect.TypeOf(dateInputFormatter{})
@@ -26,7 +26,7 @@ func Test_NewInputFormatter_dateInputFormatter(t *testing.T) {
 func Test_NewInputFormatter_timeInputFormatter_second(t *testing.T) {
 	input := "12:13:14"
 
-	actual := NewInputFormatter(input)
+	actual := NewInputFormatter(input, "")
 
 	actualType := reflect.TypeOf(actual)
 	expectedType := reflect.TypeOf(timeInputFormatter{})
@@ -47,7 +47,7 @@ func Test_NewInputFormatter_timeInputFormatter_second(t *testing.T) {
 func Test_NewInputFormatter_timeInputFormatter_minute(t *testing.T) {
 	input := "12:13"
 
-	actual := NewInputFormatter(input)
+	actual := NewInputFormatter(input, "")
 
 	actualType := reflect.TypeOf(actual)
 	expectedType := reflect.TypeOf(timeInputFormatter{})
@@ -68,7 +68,7 @@ func Test_NewInputFormatter_timeInputFormatter_minute(t *testing.T) {
 func Test_NewInputFormatter_dateTimeInputFormatter(t *testing.T) {
 	input := "2020-06-10T12:34:56Z"
 
-	actual := NewInputFormatter(input)
+	actual := NewInputFormatter(input, "")
 
 	actualType := reflect.TypeOf(actual)
 	expectedType := reflect.TypeOf(dateTimeInputFormatter{})
@@ -85,7 +85,7 @@ func Test_NewInputFormatter_dateTimeInputFormatter(t *testing.T) {
 func Test_NewInputFormatter_unixTimeInputFormatter(t *testing.T) {
 	input := "1592724053"
 
-	actual := NewInputFormatter(input)
+	actual := NewInputFormatter(input, "")
 
 	actualType := reflect.TypeOf(actual)
 	expectedType := reflect.TypeOf(unixTimeInputFormatter{})
@@ -97,12 +97,36 @@ func Test_NewInputFormatter_unixTimeInputFormatter(t *testing.T) {
 	if actualFormatter.input != input {
 		t.Errorf("Error. expect: %s actual: %s", input, actualFormatter.input)
 	}
+	if actualFormatter.unit != "s" {
+		t.Errorf("Error. expect: %s actual: %s", input, actualFormatter.input)
+	}
+}
+
+func Test_NewInputFormatter_unixTimeInputFormatter_ms(t *testing.T) {
+	input := "1592724053123"
+	unit := "ms"
+
+	actual := NewInputFormatter(input, unit)
+
+	actualType := reflect.TypeOf(actual)
+	expectedType := reflect.TypeOf(unixTimeInputFormatter{})
+
+	actualFormatter := actual.(unixTimeInputFormatter)
+	if actualType != expectedType {
+		t.Errorf("Error. expect: %s actual: %s", expectedType, actualType)
+	}
+	if actualFormatter.input != input {
+		t.Errorf("Error. expect: %s actual: %s", input, actualFormatter.input)
+	}
+	if actualFormatter.unit != "ms" {
+		t.Errorf("Error. expect: %s actual: %s", input, actualFormatter.input)
+	}
 }
 
 func Test_NewInputFormatter_currentTimeFormatter(t *testing.T) {
 	input := "a"
 
-	actual := NewInputFormatter(input)
+	actual := NewInputFormatter(input, "")
 
 	actualType := reflect.TypeOf(actual)
 	expectedType := reflect.TypeOf(currentTimeFormatter{})
