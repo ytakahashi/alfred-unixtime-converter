@@ -45,6 +45,7 @@ type dateTimeInputFormatter struct {
 }
 type unixTimeInputFormatter struct {
 	input string
+	unit  string
 }
 type dateInputFormatter struct {
 	input string
@@ -56,7 +57,7 @@ type timeInputFormatter struct {
 type currentTimeFormatter struct{}
 
 // NewInputFormatter creates a new input formatter instance
-func NewInputFormatter(input string) InputFormatter {
+func NewInputFormatter(input string, option string) InputFormatter {
 	if slices.Contains(preset, strings.ToLower(input)) {
 		return presetFormatter{
 			input: input,
@@ -85,8 +86,15 @@ func NewInputFormatter(input string) InputFormatter {
 		}
 	}
 	if _, e := strconv.ParseInt(input, 10, 64); e == nil {
+		var unit string
+		if option == "ms" {
+			unit = "ms"
+		} else {
+			unit = "s"
+		}
 		return unixTimeInputFormatter{
 			input: input,
+			unit:  unit,
 		}
 	}
 	return currentTimeFormatter{}

@@ -10,9 +10,10 @@ import (
 
 func main() {
 	flag.Parse()
-	val := flag.Arg(0)
+	input := flag.Arg(0)
+	option := flag.Arg(1)
 
-	formatter := date.NewInputFormatter(val)
+	formatter := date.NewInputFormatter(input, option)
 	execute(formatter)
 }
 
