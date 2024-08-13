@@ -23,10 +23,20 @@ Unix timestamp (epoch second)
 
 - example: `1588291200`
 
+![unixtime_s](./image/unixtime_s.png)
+
+Unit (`s` or `ms`) can be specified (defaults to `s`)
+
+- example: `1588291200000 ms`
+
+![unixtime_ms](./image/unixtime_ms.png)
+
 #### Datetime
 
 ISO 8601 date string
 
 - example: `2020-05-01T12:00:00Z`
+
+![datetime](./image/datetime.png)
 
 `yyyy-` or `yyyy-mm-ddT` can be omitted. If omitted, current year/date is applied.
