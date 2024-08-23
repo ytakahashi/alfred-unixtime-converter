@@ -18,10 +18,10 @@ jobs:
         go:
           - '1.23'
 
+    steps:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v4
 
-    steps:
     - name: Set up Go ${{ matrix.go }}
       uses: actions/setup-go@v4
       with:
